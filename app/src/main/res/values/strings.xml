@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">LetsConnect</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_call_log">CallLog</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_main">LetConnect</string>
+
+
+    <string name="tab_text_1">Call Log</string>
+    <string name="tab_text_2">Contact</string>
+    <string name="tab_text_3">Message</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+
+    <string name="title_activity_greeting_screen">GreetingScreen</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

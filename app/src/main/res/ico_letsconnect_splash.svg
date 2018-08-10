@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 165 27">
+  <defs>
+    <style>
+      .cls-1, .cls-4 {
+        fill: #128807;
+      }
+
+      .cls-1 {
+        stroke: #f93;
+        stroke-width: 2px;
+      }
+
+      .cls-2, .cls-6 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #fff;
+        stroke-width: 1.6px;
+      }
+
+      .cls-3 {
+        fill: #f93;
+        font-size: 20px;
+        font-family: SegoeUIBlack-Italic, Segoe UI;
+        font-style: italic;
+        letter-spacing: 0.013em;
+      }
+
+      .cls-5 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="ico_letsconnect_splash" transform="translate(-203 -588.05)">
+    <g id="Group_3" data-name="Group 3" transform="translate(89 226)">
+      <g id="Group_2" data-name="Group 2" transform="translate(-99 -203)">
+        <g id="Group_7" data-name="Group 7" transform="translate(-3)">
+          <g id="Group_5" data-name="Group 5" transform="translate(-5 15)">
+            <g id="Group_6" data-name="Group 6">
+              <g id="Group_4" data-name="Group 4">
+                <g id="Ellipse_1" data-name="Ellipse 1" class="cls-1" transform="translate(279 558)">
+                  <circle class="cls-5" cx="7.5" cy="7.5" r="7.5"/>
+                  <circle class="cls-6" cx="7.5" cy="7.5" r="8.5"/>
+                </g>
+              </g>
+            </g>
+            <line id="Line_1" data-name="Line 1" class="cls-2" x2="14" transform="translate(279.5 565.5)"/>
+            <line id="Line_2" data-name="Line 2" class="cls-2" x2="14" transform="translate(286.5 558.5) rotate(90)"/>
+            <line id="Line_3" data-name="Line 3" class="cls-2" x2="14" transform="matrix(0.656, 0.755, -0.755, 0.656, 281.91, 560.22)"/>
+            <line id="Line_4" data-name="Line 4" class="cls-2" x2="14" transform="translate(291.704 560.819) rotate(138)"/>
+          </g>
+        </g>
+        <text id="Lets_connect" data-name="Lets     connect" class="cls-3" transform="translate(213 565.05)"><tspan x="9.539" y="22" xml:space="preserve">Lets     </tspan><tspan class="cls-4" y="22">connect</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>
