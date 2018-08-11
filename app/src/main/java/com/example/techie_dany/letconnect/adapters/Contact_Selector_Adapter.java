@@ -140,8 +140,13 @@ public class Contact_Selector_Adapter extends RecyclerView.Adapter<Contact_Selec
 
                 try {
                     sql_from_contact =  new SQLiteDB(v.getContext());
-                    sql_from_contact.insertContact(finalTempName,finalTempPhone,finalPropic);
-                    Toast.makeText(v.getContext(),"Added"+finalTempName,Toast.LENGTH_LONG).show();
+                    long id = sql_from_contact.insertContact(finalTempName,finalTempPhone,finalPropic);
+                    if(id==-1){
+                        Toast.makeText(v.getContext(),finalTempName+" Already Exists ",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(v.getContext(),"Added "+finalTempName,Toast.LENGTH_LONG).show();
+                    }
                 }
                 catch (Exception e){
                     Log.i(TAG, "onClick: "+e);

@@ -17,9 +17,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic0_contact"
+        android:icon="@drawable/ico_flag"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic0_contact"
+        android:roundIcon="@drawable/ico_flag"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -27,7 +27,11 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.Contacts_selector_activity" />
-        <activity android:name=".activities.Message_Selector_Activity" />
+        <activity android:name=".activities.Message_Selector_Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
         <activity android:name=".activities.AvatarTesting" />
         <activity
             android:name=".activities.SplashScreen"

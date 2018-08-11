@@ -58,7 +58,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         long id = standDB.insert(contact_DBHelper.TABLE_NAME, null, values);
         standDB.close();
-        Log.i(TAG, "insertContact: "+values);
+        Log.i(TAG, "insertContact: "+id);
          return id;
     }
 

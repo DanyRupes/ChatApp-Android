@@ -16,8 +16,8 @@ public class contact_DBHelper {
     public static final String PIC="PIC";
 
 
-    public static final String CREATE_TABLE = "CREATE TABLE " +TABLE_NAME +"("+ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-            +NAME +" TEXT," +PHONE + " TEXT," +PIC +" BLOB"+")";
+    public static final String CREATE_TABLE = "CREATE TABLE " +TABLE_NAME +"("+ID +" INTEGER,"
+            +NAME +" TEXT PRIMARY KEY," +PHONE + " TEXT," +PIC +" BLOB"+")";
 
 
     public contact_DBHelper(){}

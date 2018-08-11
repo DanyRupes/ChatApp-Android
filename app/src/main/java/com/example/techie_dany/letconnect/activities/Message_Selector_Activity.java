@@ -144,6 +144,12 @@ public class Message_Selector_Activity extends AppCompatActivity {
             message_select_cycler.setAdapter(message_select_adapter);
         }
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
 
 }
 

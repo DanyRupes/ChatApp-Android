@@ -44,6 +44,8 @@ public class Contacts_selector_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_selector);
 
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
             cont_selector_cycl = findViewById(R.id.contact_select_cycler);
             cont_selector_cycl.setHasFixedSize(true);
@@ -161,6 +163,14 @@ public class Contacts_selector_activity extends AppCompatActivity {
 
 //         cont_selector_cycl.setAdapter(Cont_Selector_Adapter);
     }
+
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
 
         @Override
     public void onStart() {
