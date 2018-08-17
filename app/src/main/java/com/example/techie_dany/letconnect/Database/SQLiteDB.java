@@ -3,8 +3,10 @@ package com.example.techie_dany.letconnect.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -47,7 +49,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
 
 //    insertContact
-    public long insertContact(String name, String phone, byte[] pic){
+    public long insertContact(String name, String phone, byte[] pic) throws SQLiteException{
 
          SQLiteDatabase standDB = this.getWritableDatabase();
 
@@ -55,8 +57,19 @@ public class SQLiteDB extends SQLiteOpenHelper {
         values.put(contact_DBHelper.NAME, name);
         values.put(contact_DBHelper.PHONE, phone);
         values.put(contact_DBHelper.PIC, pic);
+        long id = 0;
 
-        long id = standDB.insert(contact_DBHelper.TABLE_NAME, null, values);
+        try {
+            id= standDB.insert(contact_DBHelper.TABLE_NAME, null, values);
+            Log.i(TAG, "Nooooo ");
+        }
+        catch (SQLiteException se){
+            Log.i(TAG, "Yesss" +se);
+//            return 26;
+        }
+        catch (Throwable e){
+            Log.i(TAG, "insertContact: ");
+        }
         standDB.close();
         Log.i(TAG, "insertContact: "+id);
          return id;
@@ -154,25 +167,27 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
 
 
-//    public contact_DBHelper getThisContact(int id){
-//
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
+    public long removeThisContact(String number){
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+            long id = db.delete(contact_DBHelper.TABLE_NAME, contact_DBHelper.PHONE +"=?",new String[]{number});
+            Log.i(TAG, "removeThisContact: "+id);
 //        Cursor cur = db.query(contact_DBHelper.TABLE_NAME, new String[]{contact_DBHelper.ID, contact_DBHelper.NAME,contact_DBHelper.PHONE},
-//                contact_DBHelper.ID +"=?",new String[]{String.valueOf(id)}, null, null, null, null);
+//                contact_DBHelper.PHONE +"=?",new String[]{String.valueOf(number)}, null, null, null, null);
 //
 //
 //        if (cur !=null){
 //            cur.moveToFirst();
 //        }
-//
-//
+
+
 //        contact_DBHelper contacthelp1 = new contact_DBHelper(
 //                cur.getString(cur.getColumnIndex(contact_DBHelper.NAME)),
 //                cur.getString(cur.getColumnIndex(contact_DBHelper.PHONE)),cur.getBlob(cur.getColumnIndex(contact_DBHelper.PIC)));
-//
-//        return contacthelp1;
-//    }
+        db.close();
+        return id;
+    }
 
 
 }

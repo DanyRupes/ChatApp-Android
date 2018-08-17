@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class Contacts extends Fragment {
     public RecyclerView.Adapter contact_adapter;
     public RecyclerView.LayoutManager contact_layout;
     FloatingActionButton fbContact;
+
     private SQLiteDB sqLiteDB;
 //    public ProgressBar progress_contacts;
 
@@ -50,7 +53,6 @@ public class Contacts extends Fragment {
         final View view = layoutInflater.inflate(R.layout.fragment_contacts, container, false);
 
         Log.d(TAG, "Hello : ");
-
         contact_cycler = (RecyclerView) view.findViewById(R.id.contact_cyc);
         contact_cycler.setHasFixedSize(true);
 
@@ -81,6 +83,8 @@ public class Contacts extends Fragment {
         });
 
 
+
+
         return view;
     }
 
@@ -95,6 +99,7 @@ public class Contacts extends Fragment {
 //        again comes
         contact_adapter = new contact_Adapter(sqLiteDB.getDBContacts());
         contact_cycler.setAdapter(contact_adapter);
+//        contact_adapter.notifyDataSetChanged();
 
     }
 

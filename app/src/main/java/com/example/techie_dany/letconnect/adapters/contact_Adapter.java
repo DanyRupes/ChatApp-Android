@@ -15,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.techie_dany.letconnect.Database.SQLiteDB;
 import com.example.techie_dany.letconnect.R;
 import com.example.techie_dany.letconnect.helpers.contact_DBHelper;
 
@@ -27,56 +29,69 @@ import java.util.List;
 
 public class contact_Adapter extends RecyclerView.Adapter<contact_Adapter.ViewHolder> implements View.OnClickListener {
 
-    private static final String TAG = "ca";
+    private static final String TAG = "cad";
     private ArrayList<contact_DBHelper> values;
     private int myPosition;
     public int itemSize;
 
-
+    contact_Adapter(){}
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView contact_name, contact_phone;
         public View myLayout;
         public ImageView cc_avatar;
+        FrameLayout contact_frameLayout;
+        public ImageButton contact_rem_btn;
         public ViewHolder(View itemView) {
             super(itemView);
             myLayout = itemView;
+
             contact_name = (TextView) myLayout.findViewById(R.id.c_name);
             contact_phone = (TextView) myLayout.findViewById(R.id.c_phone_no);
             cc_avatar = (ImageView) myLayout.findViewById(R.id.cc_avatar);
+            contact_rem_btn = (ImageButton) myLayout.findViewById(R.id.contact_rem_btn);
 
-            FrameLayout contact_frameLayout = (FrameLayout) myLayout.findViewById(R.id.frame_contact);
+            contact_frameLayout = (FrameLayout) myLayout.findViewById(R.id.frame_contact);
             contact_frameLayout.setOnClickListener(this);
+//            contact_rem_btn.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+//            action call
+            switch (v.getId()){
+                case R.id.frame_contact :
+                    String uriCall = "tel:" + contact_phone.getText().toString().trim();
+                    Intent in = new Intent(Intent.ACTION_CALL);
+                    in.setData(Uri.parse(uriCall));
+                    if (ActivityCompat.checkSelfPermission(v.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        Log.i(TAG, "Okayyy Callll: ");
+                        Toast.makeText(myLayout.getContext(), "Permission Not Granted " + contact_name.getText().toString(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                        v.getContext().startActivity(in);
+                break;
+                case R.id.contact_rem_btn :
 
-            String uriCall = "tel:" + contact_phone.getText().toString().trim();
-            Intent in = new Intent(Intent.ACTION_CALL);
-            in.setData(Uri.parse(uriCall));
-            if (ActivityCompat.checkSelfPermission(v.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "Okayyy Callll: ");
-                Toast.makeText(myLayout.getContext(), "Permission Not Granted " + contact_name.getText().toString(), Toast.LENGTH_LONG).show();
-                return;
+                break;
             }
-                v.getContext().startActivity(in);
         }
     }
 
-    public void add(int position, contact_DBHelper cname) {
-        this.myPosition = position;
-        values.add(position, cname);
-    }
+//    public void add(int position, contact_DBHelper cname) {
+//        this.myPosition = position;
+//        values.add(position, cname);
+//    }
 
-    public void remove(int position) {
+    public  void remove(int position) {
         values.remove(position);
     }
 
     public contact_Adapter(ArrayList<contact_DBHelper> myContactList) {
         values = myContactList;
         itemSize = myContactList.size();
-        Log.i(TAG, "size " + itemSize);
+
+//        Log.i(TAG, "size " + itemSize);
     }
 
     @NonNull
@@ -93,7 +108,7 @@ public class contact_Adapter extends RecyclerView.Adapter<contact_Adapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull contact_Adapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final contact_Adapter.ViewHolder holder, final int position) {
 
         final contact_DBHelper name = values.get(position);
 
@@ -101,12 +116,52 @@ public class contact_Adapter extends RecyclerView.Adapter<contact_Adapter.ViewHo
         holder.contact_name.setText("" + values.get(position).getName());
         holder.contact_phone.setText("" + values.get(position).getPhone());
 //        Set profile pic from db
-        if(values.get(position).getPhoto()==null){
-            Log.i(TAG, "doood null ");
+        try{
+            Log.i(TAG, "onBindViewHolder: "+values.get(position).getPhoto().length);
+            if(values.get(position).getPhoto().length==0){
+                Log.i(TAG, "photo null but set");
+                holder.cc_avatar.setImageResource(R.drawable.avatarcc);
+            }
+            else{
+                holder.cc_avatar.setImageBitmap(giveMeFreedom(values.get(position).getPhoto()));
+            }
         }
-        else{
-            holder.cc_avatar.setImageBitmap(giveMeFreedom(values.get(position).getPhoto()));
+        catch (Exception e){
+
         }
+
+        holder.contact_rem_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDB sql = new SQLiteDB(v.getContext());
+                long id = sql.removeThisContact(holder.contact_phone.getText().toString());
+//                    values = sql.getDBContacts();
+                if(id != 0){
+//                        Log.i(TAG, "id"+myLayout.getId());
+//                        myLayout.setVisibility(View.GONE);
+//                        Log.i(TAG, "onClick: "+itemView);
+//                    contact_Adapter ca = new contact_Adapter();
+////                        ca.remove(v.getId());
+////                        values.remove(0);
+//                        itemView.notifyAll();
+//                        itemView.notify();
+//                        ca.notifyItemRemoved(position);
+//                        holder.contact_frameLayout.removeView();
+//                     ca.remove(position);
+//                    Log.i(TAG, "position: "+position);
+                    contact_Adapter.this.notifyItemRemoved(position);
+                    contact_Adapter.this.values = sql.getDBContacts();
+                    contact_Adapter.this.notifyItemRangeChanged(0, itemSize--);
+//                    Log.i(TAG, "itemSize: "+itemSize);
+//                    itemSize--;
+                    Toast.makeText(v.getContext(), "Removed ", Toast.LENGTH_SHORT).show();
+                }
+                else {
+//                    Log.i(TAG, " is : "+position);
+                    Toast.makeText(v.getContext(), "Currently Not!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 

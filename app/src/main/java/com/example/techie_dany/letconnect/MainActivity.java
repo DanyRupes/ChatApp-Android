@@ -1,5 +1,12 @@
 package com.example.techie_dany.letconnect;
 
+import android.content.ContentUris;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,8 +20,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.amitshekhar.DebugDB;
+import com.example.techie_dany.letconnect.Database.SQLiteDB;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,14 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
 
-
-
-        Log.i(TAG, "url "+DebugDB.getAddressLog());
+//        Log.i(TAG, "url "+DebugDB.getAddressLog());
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -47,6 +64,115 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+
+
+
+
+//            Get cotact from Contact App- reciving by intent
+        Intent recive_intent = getIntent();
+        String type = recive_intent.getType();
+        String action  = recive_intent.getAction();
+
+
+        if(Intent.ACTION_SEND.equals(action) && type.equals("text/x-vcard")){
+            Log.i(TAG, "receving contact type: " +type);
+            Log.i(TAG, "receving contact action: " +action);
+            Log.i(TAG, "receving contact extra: " +recive_intent.getExtras());
+                Log.i(TAG, "receving contact STREAM: " +recive_intent.getParcelableExtra(Intent.EXTRA_STREAM));
+            Uri rec_contact_uri = recive_intent.getParcelableExtra(Intent.EXTRA_STREAM);
+
+            InputStream inp = null;
+            try {
+                inp = getContentResolver().openInputStream(rec_contact_uri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            StringBuffer sb = new StringBuffer("");
+
+            int c;
+            try {
+                while ((c = inp.read()) != -1) {
+                    sb.append((char)c);
+                }
+            }
+            catch (Exception e){}
+            Log.i(TAG, "onCreate: "+sb.toString());// \\+\\d+
+            Pattern pattern = Pattern.compile("[\\+\\d]+[\\d-]+");
+            String contact_phone = null;
+            try {
+                Matcher matcher = pattern.matcher(sb.toString());
+
+                matcher.find();
+                contact_phone = matcher.group(0);
+//                        Log.i(TAG, "Phone_num  " + contact_phone);
+            }
+            catch (Exception e){
+                Log.i(TAG, "No Matching Contact  numbers"+e);
+            }
+
+            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null,
+                    ContactsContract.CommonDataKinds.Phone.NUMBER+" =? ", new String[]{contact_phone.replace("-","")}, null);
+
+            Log.i(TAG, "onCreate: "+contact_phone.replace("-",""));
+            String contact_name,contact_id;
+            Bitmap contact_pic = null;
+            byte[] contact_photo_bytes = new byte[0];
+            SQLiteDB sqLiteDB = new SQLiteDB(this);
+            int i=0;
+            cursor.moveToNext();
+            while (cursor.moveToNext()){
+//                Log.i(TAG, "onCreate: "+i);
+                contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
+                contact_name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+
+                Uri helperUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,Long.parseLong(contact_id));
+
+                Uri Mphoto_uri = Uri.withAppendedPath(helperUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+
+                Cursor photo_cur = getContentResolver().query(Mphoto_uri,new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO}, null, null, null);
+
+                while (photo_cur.moveToNext()){
+                    contact_photo_bytes = photo_cur.getBlob(0);
+                }
+                photo_cur.close();
+
+//              for default profile pic
+//                Bitmap finalPic;
+//                if(contact_photo_bytes.length==0){
+//
+//                }
+
+                Log.i(TAG, "contact_details:" +contact_name+" "+contact_phone+" "+contact_photo_bytes.length);
+                try {
+
+                    long id =sqLiteDB.insertContact(contact_name, contact_phone, contact_photo_bytes);
+//                    Log.i(TAG, "onCreate: "+id);
+                    if(id == -1){
+//                        Log.i(TAG, "Already....");
+                        Toast.makeText(this, ""+contact_name+" present in LetsConnect",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+//                        Log.i(TAG, "id "+id);
+                        Toast.makeText(this, ""+contact_name+" Added to LetsConnect",Toast.LENGTH_LONG).show();
+                    }
+
+                }
+                catch (Exception e){
+//                    Log.i(TAG, "onCreate: "+e);
+                    Toast.makeText(this, "Cannot Insert Contact",Toast.LENGTH_LONG).show();
+                }
+                i++;
+            }
+            cursor.close();
+
+
+//            naviagete to contact fragment
+            mViewPager.setCurrentItem(1, true);
+        }
+
+
     }
 
 
@@ -110,6 +236,46 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
+
+//            while (cursor.moveToNext()){
+//                    contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
+//                    contact_name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+//
+//                    Uri helperUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,Long.parseLong(contact_id));
+////            Log.i(TAG, "onCreate: " +helperUri);
+//
+//// this for CommonDataKinds.Phone               08-17 22:00:31.633 31307-31307/? I/main: onCreate: content://com.android.contacts/data/phones/1074
+//// this for ContactsContract.Contacts.CONTENT_URI  08-17 22:00:31.633 31307-31307/? I/main: onCreate: content://com.android.contacts/data/phones/1074
+//
+//
+//                    Uri Mphoto_uri = Uri.withAppendedPath(helperUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+////            Log.i(TAG, "onCreate: " +Mphoto_uri);
+////this for CommonDataKinds.Phone                08-17 22:00:31.633 31307-31307/? I/main: onCreate: content://com.android.contacts/data/phones/1074/photo
+////this for ContactsContract.Contacts.CONTENT_URI  08-17 22:00:31.633 31307-31307/? I/main: onCreate: content://com.android.contacts/data/phones/1074/photo
+//
+//                    Cursor photo_cur = getContentResolver().query(Mphoto_uri,new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO}, null, null, null);
+////            Log.i(TAG, "onCreate: "+photo_cur.getCount());
+//
+//                    while (photo_cur.moveToNext()){
+//                    contact_photo_bytes = photo_cur.getBlob(0);
+////                if (contact_photo_bytes != null){
+////                    InputStream inputStream = new ByteArrayInputStream(contact_photo_bytes);
+////                    contact_pic= BitmapFactory.decodeStream(inputStream);
+////                }
+////                else{ Log.i(TAG, "No Datas"); }
+//                    }
+//                    photo_cur.close();
+////            Contact Name, Phone, Pic found
+//                    Log.i(TAG, "contact_details:" +contact_name+" "+contact_phone+" "+contact_photo_bytes);
+//                    try {
+//
+//                    sqLiteDB.insertContact(contact_name, contact_phone, contact_photo_bytes);
+//                    }
+//                    catch (Exception e){
+//                    Log.i(TAG, "onCreate: "+e);
+//                    Toast.makeText(this, "Cannot Insert Contact",Toast.LENGTH_LONG).show();
+//                    }
+//                    }
 
 //    public static final String TABLE_NAME = "messages";
 //    public static final String ID = "ID";

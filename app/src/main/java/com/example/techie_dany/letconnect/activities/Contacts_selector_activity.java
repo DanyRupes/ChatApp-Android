@@ -78,7 +78,11 @@ public class Contacts_selector_activity extends AppCompatActivity {
                 String id_str = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
                 String c_name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 Bitmap beet = null;
+//                08-17 22:00:31.633 31307-31307/? I/main: onCreate: content://com.android.contacts/data/phones/1074
+//                08-17 22:00:31.633 31307-31307/? I/main: onCreate: content://com.android.contacts/data/phones/1074/photo
 
+//    08-17 22:23:48.996 32639-32639/com.example.techie_dany.letconnect I/conact: getContactList: content://com.android.contacts/contacts/1221
+//    08-17 22:23:48.996 32639-32639/com.example.techie_dany.letconnect I/conact: getContactList: content://com.android.contacts/contacts/1221/photo
 
 //                Log.i(T
 // AG, "id_str" +id_str);
@@ -86,7 +90,9 @@ public class Contacts_selector_activity extends AppCompatActivity {
                 Uri contact_uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,Long.parseLong(id_str));
 
 //                photo uri - single /photo
+                Log.i(TAG, "getContactList: " +contact_uri);
                 Uri photo_uri = Uri.withAppendedPath(contact_uri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+                Log.i(TAG, "getContactList: " +photo_uri);
 
 //                Photo Cursor - single-- with permission /photo_uri:
                 Cursor photo_cur = getContentResolver().query(photo_uri,new String[]{ContactsContract.Contacts.Photo.PHOTO},null,null,null);

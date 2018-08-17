@@ -145,7 +145,8 @@ public class Contact_Selector_Adapter extends RecyclerView.Adapter<Contact_Selec
                         Toast.makeText(v.getContext(),finalTempName+" Already Exists ",Toast.LENGTH_LONG).show();
                     }
                     else {
-                        Toast.makeText(v.getContext(),"Added "+finalTempName,Toast.LENGTH_LONG).show();
+                        Toast.makeText(v.getContext(),"Added "+finalTempName, Toast.LENGTH_SHORT).show();
+
                     }
                 }
                 catch (Exception e){
