@@ -13,6 +13,8 @@ public class callLog_helper {
         this.date = date;
     }
 
+
+
     public String getName() {
         return name;
     }
