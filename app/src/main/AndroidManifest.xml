@@ -22,9 +22,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ico_flag"
+        android:icon="@mipmap/letconnect"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ico_flag"
+        android:roundIcon="@mipmap/letconnect"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
