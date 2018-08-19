@@ -1,6 +1,7 @@
 package com.example.techie_dany.letconnect.activities;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.techie_dany.letconnect.Call_Log;
 import com.example.techie_dany.letconnect.Contacts;
 import com.example.techie_dany.letconnect.R;
 import com.example.techie_dany.letconnect.helpers.contact_phonehelper;
@@ -73,5 +76,22 @@ public class AvatarTesting extends AppCompatActivity {
 
 
 
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.i(TAG, "checking");
+        Call_Log call_log = new Call_Log();
+        try{
+//            Toast.makeText(this,"Give Permission to Read Contacts, Call Logs, Messages",Toast.LENGTH_LONG).show();
+            Log.i(TAG, "onStart: " +call_log.getLogs(AvatarTesting.this).size());
+            if(call_log.getLogs(AvatarTesting.this).size() !=0){
+                Log.i(TAG, "finish()");
+                finish();
+            }
+        }
+        catch (Exception e){
+            Log.i(TAG, "onStartAvatar: "+e);
+        }
     }
 }

@@ -25,7 +25,7 @@
 
     <TextView
         android:id="@+id/ms_date"
-        android:layout_width="111dp"
+        android:layout_width="122dp"
         android:layout_height="19dp"
         android:layout_marginTop="27dp"
         android:layout_marginEnd="63dp"
@@ -78,19 +78,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.01" />
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/addMessage"
-        android:layout_width="31dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginRight="57dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/msg_grp_single"
-        app:layout_constraintBottom_toTopOf="@+id/message"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/single_contact"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.873" />
+        app:layout_constraintVertical_bias="0.294" />
 
     <TextView
         android:id="@+id/message"

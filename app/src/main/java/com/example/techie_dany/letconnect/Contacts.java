@@ -82,9 +82,6 @@ public class Contacts extends Fragment {
             }
         });
 
-
-
-
         return view;
     }
 

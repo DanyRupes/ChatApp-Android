@@ -117,17 +117,19 @@ public class contact_Adapter extends RecyclerView.Adapter<contact_Adapter.ViewHo
         holder.contact_phone.setText("" + values.get(position).getPhone());
 //        Set profile pic from db
         try{
-            Log.i(TAG, "onBindViewHolder: "+values.get(position).getPhoto().length);
-            if(values.get(position).getPhoto().length==0){
-                Log.i(TAG, "photo null but set");
+            Log.i(TAG, ""+values.get(position).getName());
+            Log.i(TAG, ""+values.get(position).getPhoto());
+            if(values.get(position).getPhoto()==null){
+                Log.i(TAG, "Zero");
                 holder.cc_avatar.setImageResource(R.drawable.avatarcc);
             }
             else{
+                Log.i(TAG, "else");
                 holder.cc_avatar.setImageBitmap(giveMeFreedom(values.get(position).getPhoto()));
             }
         }
         catch (Exception e){
-
+            Log.i(TAG, "onBindViewHolder: "+e);
         }
 
         holder.contact_rem_btn.setOnClickListener(new View.OnClickListener() {

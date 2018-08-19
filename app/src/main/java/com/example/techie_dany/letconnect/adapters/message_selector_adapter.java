@@ -2,6 +2,7 @@ package com.example.techie_dany.letconnect.adapters;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,7 +49,7 @@ public class message_selector_adapter extends RecyclerView.Adapter<message_selec
         public View view_layout;
         TextView name,phone,ms_date,rollNo;
         TextView message;
-        Button addMessage;
+        FloatingActionButton addMessage;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -59,7 +60,7 @@ public class message_selector_adapter extends RecyclerView.Adapter<message_selec
             phone = (TextView) view_layout.findViewById(R.id.phone);
             message = (TextView) view_layout.findViewById(R.id.message);
             ms_date = (TextView) view_layout.findViewById(R.id.ms_date);
-            addMessage = (Button) view_layout.findViewById(R.id.addMessage);
+            addMessage = (FloatingActionButton) view_layout.findViewById(R.id.addMessage);
             rollNo = (TextView) view_layout.findViewById(R.id.rollNo);
         }
     }

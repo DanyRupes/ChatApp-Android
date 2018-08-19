@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,7 +51,7 @@ public class Contact_Selector_Adapter extends RecyclerView.Adapter<Contact_Selec
 
         public TextView name, phone;
         public ImageView photo;
-        public Button addContacts;
+        public FloatingActionButton addContacts;
         public View con_sl_layout;
 
         public ViewHolder(View itemView) {
@@ -60,7 +61,7 @@ public class Contact_Selector_Adapter extends RecyclerView.Adapter<Contact_Selec
             name = (TextView) itemView.findViewById(R.id.name);
             phone = (TextView) itemView.findViewById(R.id.phone);
 //            rollNo = (TextView) itemView.findViewById(R.id.rollNo);
-            addContacts = (Button) itemView.findViewById(R.id.addContacts);
+            addContacts = (FloatingActionButton) itemView.findViewById(R.id.addContacts);
             photo = (ImageView) itemView.findViewById(R.id.cs_avatar);
 
         }

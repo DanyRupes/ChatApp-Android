@@ -73,18 +73,7 @@ public class Call_Log extends Fragment {
         getMeLog = getLogs(getContext());
 
 
-        try {
-            Log.i(TAG, " " +getMeLog.get(0));
-            Object a = getMeLog.get(0);
-            Log.i(TAG, "Fine ");
-            calLog_Adapter = new CalLog_Adapter(getMeLog);
-            calLog_recyle.setAdapter(calLog_Adapter);
-        }
-        catch (Exception e){
-            Log.i(TAG, "oops " );
-            Toast.makeText(getContext(),"Please Give Permission to Read Contacts",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(getContext(), AvatarTesting.class));
-        }
+
 
 
 
@@ -198,37 +187,37 @@ public class Call_Log extends Fragment {
 
 
         try {
-//            Log.i(TAG, " " +getMeLog.get(0));
+            Log.i(TAG, " " +getMeLog.get(0));
             Object a = getMeLog.get(0);
             Log.i(TAG, "Fine ");
-            calLog_Adapter = new CalLog_Adapter(getLogs(getContext()));
+            calLog_Adapter = new CalLog_Adapter(getMeLog);
             calLog_recyle.setAdapter(calLog_Adapter);
         }
         catch (Exception e){
-            Log.i(TAG, "oops " );
-            Toast.makeText(getContext(),"Please Give Permission to Read Contacts",Toast.LENGTH_LONG).show();
+            Log.i(TAG, "oops "+e );
+//            Toast.makeText(getContext(),"Please Give Permission to Read Call Logs",Toast.LENGTH_LONG).show();
             startActivity(new Intent(getContext(), AvatarTesting.class));
         }
 
 
     }
-//    @Override
-//    public void onResume() {
-//
-//        super.onResume();
-//        Log.i(TAG, "onResume: ");
-//    }
-//    @Override
-//    public void onPause() {
-//
-//        super.onPause();
-//        Log.i(TAG, "onPause: ");
-//    }
-//    public void onStop() {
-//
-//        super.onStop();
-//        Log.i(TAG, "onStop: ");
-//    }
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        Log.i(TAG, "onResume: ");
+    }
+    @Override
+    public void onPause() {
+
+        super.onPause();
+        Log.i(TAG, "onPause: ");
+    }
+    public void onStop() {
+
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+    }
 
 }
 
