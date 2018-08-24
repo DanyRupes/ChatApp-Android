@@ -118,8 +118,8 @@ public class contact_Adapter extends RecyclerView.Adapter<contact_Adapter.ViewHo
 //        Set profile pic from db
         try{
             Log.i(TAG, ""+values.get(position).getName());
-            Log.i(TAG, ""+values.get(position).getPhoto());
-            if(values.get(position).getPhoto()==null){
+            Log.i(TAG, ""+values.get(position).getPhoto().length);
+            if(values.get(position).getPhoto().length==0){
                 Log.i(TAG, "Zero");
                 holder.cc_avatar.setImageResource(R.drawable.avatarcc);
             }

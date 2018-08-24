@@ -51,11 +51,6 @@ public class Contacts_selector_activity extends AppCompatActivity {
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-
-
-
     }
 
 

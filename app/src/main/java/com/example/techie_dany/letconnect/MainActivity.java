@@ -99,13 +99,13 @@ public class MainActivity extends AppCompatActivity {
             catch (Exception e){}
             Log.i(TAG, "onCreate: "+sb.toString());// \\+\\d+
             Pattern pattern = Pattern.compile("[\\+\\d]+[\\d-]+");
-            String contact_phone = null;
+            String contact_phone0 = null;
             try {
                 Matcher matcher = pattern.matcher(sb.toString());
 
                 matcher.find();
-                contact_phone = matcher.group(0);
-//                        Log.i(TAG, "Phone_num  " + contact_phone);
+                contact_phone0 = matcher.group(0);
+                        Log.i(TAG, "Phone_num  " + contact_phone0);
             }
             catch (Exception e){
                 Log.i(TAG, "No Matching Contact  numbers"+e);
@@ -113,17 +113,18 @@ public class MainActivity extends AppCompatActivity {
 
             Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                     null,
-                    ContactsContract.CommonDataKinds.Phone.NUMBER+" =? ", new String[]{contact_phone.replace("-","")}, null);
+                    ContactsContract.CommonDataKinds.Phone.NUMBER+" =? ", new String[]{contact_phone0.replace("-","")}, null);
 
-            Log.i(TAG, "onCreate: "+contact_phone.replace("-",""));
+            Log.i(TAG, "onCreate: "+contact_phone0.replace("-",""));
+            String contact_phone= contact_phone0.replace("-","");
             String contact_name,contact_id;
             Bitmap contact_pic = null;
             byte[] contact_photo_bytes = new byte[0];
             SQLiteDB sqLiteDB = new SQLiteDB(this);
-            int i=0;
-            cursor.moveToNext();
+//            int i=0;
+//            cursor.moveToNext();
             while (cursor.moveToNext()){
-//                Log.i(TAG, "onCreate: "+i);
+                Log.i(TAG, "innnnnnnnnnnn: ");
                 contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                 contact_name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Log.i(TAG, "onCreate: "+e);
                     Toast.makeText(this, "Cannot Insert Contact",Toast.LENGTH_LONG).show();
                 }
-                i++;
+               // i++;
             }
             cursor.close();
 
